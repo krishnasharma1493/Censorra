@@ -1,0 +1,44 @@
+/* Styles for NSFW Image Blocker Extension */
+
+/* Smooth transitions for blocked images */
+img[data-nsfw-blocked] {
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for blocked images */
+img[data-nsfw-blocked]:hover {
+  opacity: 0.8;
+}
+
+/* Custom placeholder styling */
+.nsfw-placeholder {
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.nsfw-placeholder:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.02);
+}
+
+/* Loading indicator for images being processed */
+.nsfw-processing {
+  position: relative;
+  overflow: hidden;
+}
+
+.nsfw-processing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: nsfw-scan 2s infinite;
+}
+
+@keyframes nsfw-scan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
