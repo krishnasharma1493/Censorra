@@ -24,6 +24,7 @@ A minimal Chrome extension that automatically closes tabs containing NSFW images
 1. Get a Hugging Face API key from [Hugging Face](https://huggingface.co/settings/tokens)
 2. Open `background.js`
 3. Replace `'YOUR_HUGGINGFACE_API_KEY_HERE'` with your API key
+4. Alternatively, you can use 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 as the API key.
 
 ### Demo Mode:
 - Works without API key for testing
