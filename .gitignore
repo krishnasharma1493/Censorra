@@ -18,6 +18,19 @@ docs/PROJECT_PREP.md
 *.md
 !README.md
 
+# Web framework & tooling boilerplate (unused for Chrome Extension)
+components.json
+eslint.config.js
+index.html
+package.json
+package-lock.json
+postcss.config.js
+tailwind.config.ts
+tsconfig*.json
+vite.config.ts
+src/
+public/
+
 # API Keys, Tokens & Secrets (NEVER commit credentials)
 .env
 .env.*

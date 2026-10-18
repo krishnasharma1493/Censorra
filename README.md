@@ -5,10 +5,9 @@
 ### Real-Time AI Visual Content Moderation & Web Safety Browser Extension
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Manifest: V3](https://img.shields.io/badge/Manifest-V3-4285F4.svg?logo=google-chrome&logoColor=white)](manifest.json)
+[![Manifest: V3](https://img.shields.io/badge/Manifest-V3-4285F4.svg?logo=google-chrome&logoColor=white)](extension/manifest.json)
 [![AI Engine: Hugging Face](https://img.shields.io/badge/AI%20Engine-Hugging%20Face%20Vision-FFD21E.svg?logo=huggingface&logoColor=black)](https://huggingface.co/models/Falconsai/nsfw_image_detection)
 [![Target: Chromium](https://img.shields.io/badge/Compatibility-Chrome%20%7C%20Brave%20%7C%20Edge-success.svg?logo=brave&logoColor=white)](https://brave.com)
-[![TypeScript / React](https://img.shields.io/badge/Dashboard-React%2018%20%7C%20Vite%20%7C%20Tailwind-61DAFB.svg?logo=react&logoColor=black)](src/)
 [![Status](https://img.shields.io/badge/Build-Production%20Ready-brightgreen.svg)]()
 
 <p align="center">
@@ -85,31 +84,21 @@ flowchart TD
 
 ```
 Censorra/
-├── manifest.json              # Chromium Manifest V3 configuration & permission schema
-├── background.js              # Service worker: AI inference, LRU cache & tab manager
-├── content.js                 # Content script: DOM observer & canvas downsampler
-├── content.css                # Gaussian blur filters, outline cues & reveal transitions
-├── popup.html                 # Glassmorphic extension control panel
-├── popup.js                   # Popup state controller & storage sync engine
-├── placeholder.png            # Default privacy replacement graphic
-├── icons/                     # Multi-resolution extension icons
-│   ├── icon16.png             # 16x16 Toolbar & context icon
-│   ├── icon48.png             # 48x48 Extension manager icon
-│   └── icon128.png            # 128x128 Chrome Web Store asset
-├── src/                       # Interactive Web Showcase & Documentation App
-│   ├── pages/
-│   │   ├── Index.tsx          # Interactive policy simulator & architecture overview
-│   │   └── NotFound.tsx       # 404 Route handler
-│   ├── components/            # UI Component library (Radix UI / Tailwind)
-│   ├── App.tsx                # Client application root
-│   └── main.tsx               # DOM entrypoint
-├── public/                    # Web showcase static assets
-├── package.json               # Showcase project metadata & dependencies
-├── vite.config.ts             # Vite bundler configuration
-├── tailwind.config.ts         # TailwindCSS design system tokens
+├── extension/                 # Production Chromium Extension (Manifest V3)
+│   ├── manifest.json          # Extension configuration & permission schema
+│   ├── background.js          # Service worker: AI inference, LRU cache & tab manager
+│   ├── content.js             # Content script: DOM observer & canvas downsampler
+│   ├── content.css            # Gaussian blur filters, outline cues & reveal transitions
+│   ├── popup.html             # Glassmorphic extension control panel
+│   ├── popup.js               # Popup state controller & storage sync engine
+│   ├── placeholder.png        # Default privacy replacement graphic
+│   └── icons/                 # Multi-resolution extension icons
+│       ├── icon16.png         # 16x16 Toolbar & context icon
+│       ├── icon48.png         # 48x48 Extension manager icon
+│       └── icon128.png        # 128x128 Chrome Web Store asset
 ├── .gitignore                 # Standard exclusions (.epics, credentials, logs, dist)
-├── LICENSE                    # MIT Open Source License
-└── README.md                  # Project documentation & report
+├── LICENSE                    # MIT Open Source License (Krishna Sharma)
+└── README.md                  # Comprehensive architectural report & setup guide
 ```
 
 ---
@@ -134,7 +123,7 @@ Turn on the **Developer mode** toggle switch in the upper right-hand corner of t
 
 ### Step 4: Load the Unpacked Extension
 1. Click the **Load unpacked** button located in the top toolbar.
-2. Select the root folder of this repository (the directory containing `manifest.json`).
+2. Select the `extension/` folder inside this repository.
 3. Censorra will appear in your extensions list with the status indicator set to active.
 
 ### Step 5: Pin to Toolbar
@@ -148,7 +137,7 @@ Click the Extensions puzzle icon in your browser toolbar and pin **Censorra** fo
 By default, Censorra queries the production-grade `Falconsai/nsfw_image_detection` vision transformer model.
 
 1. Obtain a free Inference API token from [Hugging Face Access Tokens](https://huggingface.co/settings/tokens).
-2. Open [`background.js`](file:///Users/krishnasharma/Desktop/Projects/Censorra/background.js) in your text editor.
+2. Open [`extension/background.js`](file:///Users/krishnasharma/Desktop/Projects/Censorra/extension/background.js) in your text editor.
 3. Replace the placeholder token on line 10:
    ```javascript
    this.apiKey = 'hf_your_actual_token_here';
@@ -167,19 +156,6 @@ If no API key is specified, Censorra automatically falls back to its built-in he
 | **Explicit / Adult Content** | `nsfw`, `porn`, `explicit`, `sexual` | `>= 0.55` |
 | **Nudity / Partial Nudity** | `nude`, `naked` | `>= 0.55` |
 | **Swimwear / Undergarments** | `bikini`, `lingerie`, `underwear` | `>= 0.60` |
-
----
-
-## 🖥️ Interactive Web Showcase
-
-In addition to the unpacked browser extension, this repository contains an interactive React/Vite showcase dashboard allowing developers and evaluators to test policy behavior in a sandboxed DOM.
-
-To launch the web showcase locally:
-```bash
-npm install
-npm run dev
-```
-Navigate to `http://localhost:8080` to access the interactive sandbox, test real-time Gaussian blur transitions, and inspect data flow diagrams.
 
 ---
 
