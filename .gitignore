@@ -1,5 +1,47 @@
-# Logs
-logs
+# ==============================================================================
+# Censorra: Git Ignore Configuration
+# ==============================================================================
+
+# Internal documentation, project prep, and team tracking
+*.epics
+.epics/
+epics/
+*team*
+team/
+*project*
+project/
+about.md
+TEAM_AND_PROJECT_PREP.md
+docs/PROJECT_PREP.md
+
+# Markdown tracking (keep only the primary project README.md)
+*.md
+!README.md
+
+# API Keys, Tokens & Secrets (NEVER commit credentials)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+api_key*
+*token*
+
+# Dependencies and Package Manager Lockfiles
+node_modules/
+**/node_modules/
+bun.lockb
+
+# Build Outputs & Bundles
+dist/
+dist-ssr/
+build/
+.vite/
+*.local
+
+# Logs and Diagnostics
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +49,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# Operating System & IDE Artifacts
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
+*.swp
+*.swo
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?

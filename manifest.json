@@ -1,19 +1,28 @@
 {
   "manifest_version": 3,
-  "name": "NSFW Tab Closer",
-  "version": "1.0",
-  "description": "Automatically closes tabs containing NSFW images using Hugging Face AI",
+  "name": "Censorra — AI Content Moderation & Web Safety",
+  "version": "1.0.0",
+  "description": "Real-time AI-powered visual safety, intelligent image filtering, and automated tab protection.",
   "permissions": [
     "activeTab",
     "tabs",
     "storage",
-    "scripting",
-    "https://api-inference.huggingface.co/*"
+    "scripting"
   ],
   "host_permissions": [
     "https://*/*",
-    "http://*/*"
+    "http://*/*",
+    "https://api-inference.huggingface.co/*"
   ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Censorra Shield Controls",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
   "background": {
     "service_worker": "background.js"
   },
@@ -21,7 +30,17 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
+      "css": ["content.css"],
       "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "placeholder.png",
+        "icons/*.png"
+      ],
+      "matches": ["<all_urls>"]
     }
   ],
   "icons": {

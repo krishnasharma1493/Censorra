@@ -1,64 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Censorra Control Center</title>
   <style>
-    body {
-      width: 320px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
       padding: 0;
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
     }
-    
+
+    body {
+      width: 340px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      overflow: hidden;
+      user-select: none;
+    }
+
     .header {
-      padding: 20px;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
+      padding: 18px 20px 14px 20px;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
-    .header h1 {
-      margin: 0 0 5px 0;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .brand-text h1 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: #ffffff;
+    }
+
+    .brand-text p {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 400;
+    }
+
+    .badge-status {
+      font-size: 11px;
       font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
-    
-    .header p {
-      margin: 0;
-      font-size: 12px;
-      opacity: 0.8;
+
+    .badge-status.disabled {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.3);
     }
-    
-    .content {
-      padding: 20px;
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
     }
-    
-    .setting-group {
-      margin-bottom: 20px;
+
+    .container {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    
-    .setting-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 8px;
+
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
-    
-    .toggle-switch {
+
+    .card-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    /* Switch Component */
+    .switch {
       position: relative;
       display: inline-block;
-      width: 50px;
+      width: 44px;
       height: 24px;
+      flex-shrink: 0;
     }
-    
-    .toggle-switch input {
+
+    .switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
-    
+
     .slider {
       position: absolute;
       cursor: pointer;
@@ -66,11 +141,11 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(255, 255, 255, 0.3);
-      transition: 0.3s;
+      background-color: #334155;
+      transition: 0.25s;
       border-radius: 24px;
     }
-    
+
     .slider:before {
       position: absolute;
       content: "";
@@ -79,137 +154,212 @@
       left: 3px;
       bottom: 3px;
       background-color: white;
-      transition: 0.3s;
+      transition: 0.25s;
       border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
-    
+
     input:checked + .slider {
-      background-color: #4CAF50;
+      background-color: #6366f1;
     }
-    
+
     input:checked + .slider:before {
-      transform: translateX(26px);
+      transform: translateX(20px);
     }
-    
-    .radio-group {
-      display: flex;
-      gap: 10px;
+
+    /* Action Mode Grid */
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
     }
-    
-    .radio-option {
-      flex: 1;
+
+    .mode-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .mode-option {
       position: relative;
     }
-    
-    .radio-option input[type="radio"] {
+
+    .mode-option input {
       position: absolute;
       opacity: 0;
-    }
-    
-    .radio-option label {
-      display: block;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid transparent;
-      border-radius: 8px;
-      text-align: center;
       cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 12px;
+      width: 100%;
+      height: 100%;
     }
-    
-    .radio-option input[type="radio"]:checked + label {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.5);
-    }
-    
-    .stats {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 15px;
-      margin-top: 20px;
-    }
-    
-    .stats h3 {
-      margin: 0 0 10px 0;
-      font-size: 14px;
-    }
-    
-    .stat-item {
+
+    .mode-box {
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-      font-size: 12px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 6px;
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
     }
-    
+
+    .mode-icon {
+      font-size: 18px;
+    }
+
+    .mode-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .mode-option input:checked + .mode-box {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: #6366f1;
+    }
+
+    .mode-option input:checked + .mode-box .mode-title {
+      color: #a5b4fc;
+    }
+
+    /* Telemetry Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: #1e293b;
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f8fafc;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-text {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
     .footer {
-      padding: 15px 20px;
-      background: rgba(0, 0, 0, 0.2);
+      padding: 12px 20px;
+      background: #090d16;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
       text-align: center;
       font-size: 11px;
-      opacity: 0.8;
+      color: #64748b;
     }
-    
-    .disabled {
-      opacity: 0.5;
+
+    .footer a {
+      color: #818cf8;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .disabled-overlay {
+      opacity: 0.45;
       pointer-events: none;
+      transition: opacity 0.2s ease;
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>🛡️ NSFW Blocker</h1>
-    <p>AI-powered image protection</p>
-  </div>
-  
-  <div class="content">
-    <div class="setting-group">
-      <label class="setting-label">
-        Enable Protection
-        <div style="float: right;">
-          <label class="toggle-switch">
-            <input type="checkbox" id="blockingEnabled">
-            <span class="slider"></span>
-          </label>
-        </div>
-      </label>
-    </div>
-    
-    <div class="setting-group" id="modeSettings">
-      <label class="setting-label">Blocking Mode</label>
-      <div class="radio-group">
-        <div class="radio-option">
-          <input type="radio" id="blurMode" name="blockingMode" value="blur">
-          <label for="blurMode">Blur</label>
-        </div>
-        <div class="radio-option">
-          <input type="radio" id="replaceMode" name="blockingMode" value="replace">
-          <label for="replaceMode">Replace</label>
-        </div>
+    <div class="brand">
+      <div class="brand-icon">🛡️</div>
+      <div class="brand-text">
+        <h1>Censorra</h1>
+        <p>AI Vision Safety Shield</p>
       </div>
     </div>
-    
-    <div class="stats">
-      <h3>Session Stats</h3>
-      <div class="stat-item">
-        <span>Images Scanned:</span>
-        <span id="imagesScanned">0</span>
-      </div>
-      <div class="stat-item">
-        <span>Content Blocked:</span>
-        <span id="contentBlocked">0</span>
-      </div>
-      <div class="stat-item">
-        <span>Status:</span>
-        <span id="status">Active</span>
-      </div>
+    <div class="badge-status" id="statusBadge">
+      <span class="badge-dot"></span>
+      <span id="statusText">Active</span>
     </div>
   </div>
-  
+
+  <div class="container">
+    <!-- Master Toggle -->
+    <div class="card">
+      <div class="card-row">
+        <div>
+          <div class="card-label">Protection Shield</div>
+          <div class="card-desc">Real-time image classification</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="masterToggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Enforcement Policy -->
+    <div id="policySection">
+      <div class="section-title">Enforcement Policy</div>
+      <div class="mode-group">
+        <label class="mode-option">
+          <input type="radio" name="blockingMode" value="blur" id="modeBlur" checked>
+          <div class="mode-box">
+            <span class="mode-icon">💧</span>
+            <span class="mode-title">Blur</span>
+          </div>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="blockingMode" value="replace" id="modeReplace">
+          <div class="mode-box">
+            <span class="mode-icon">🖼️</span>
+            <span class="mode-title">Replace</span>
+          </div>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="blockingMode" value="close_tab" id="modeCloseTab">
+          <div class="mode-box">
+            <span class="mode-icon">⛔</span>
+            <span class="mode-title">Close Tab</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Session Metrics -->
+    <div>
+      <div class="section-title">Session Telemetry</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="statScanned">0</div>
+          <div class="stat-text">Images Analyzed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statBlocked" style="color: #818cf8;">0</div>
+          <div class="stat-text">Sensitive Filtered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
-    Made for hackathon • v1.0
+    Censorra v1.0 • Built by Krishna Sharma
   </div>
-  
+
   <script src="popup.js"></script>
 </body>
 </html>

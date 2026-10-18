@@ -1,44 +1,46 @@
-/* Styles for NSFW Image Blocker Extension */
+/**
+ * Censorra — Visual Content Moderation Styles
+ * Gaussian blur masking, animated scan indicators, and interactive reveal styling.
+ * Developed by Krishna Sharma
+ */
 
-/* Smooth transitions for blocked images */
-img[data-nsfw-blocked] {
-  transition: all 0.3s ease;
+/* Blurred State */
+img.censorra-blurred {
+  filter: blur(28px) brightness(0.85) !important;
+  transition: filter 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease !important;
+  cursor: pointer !important;
+  position: relative !important;
+  user-select: none !important;
 }
 
-/* Hover effect for blocked images */
-img[data-nsfw-blocked]:hover {
-  opacity: 0.8;
+img.censorra-blurred:hover {
+  filter: blur(20px) brightness(0.95) !important;
+  transform: scale(1.01);
 }
 
-/* Custom placeholder styling */
-.nsfw-placeholder {
-  border: 2px dashed rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+/* Replaced State */
+img.censorra-replaced {
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 }
 
-.nsfw-placeholder:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  transform: scale(1.02);
+img.censorra-replaced:hover {
+  transform: scale(1.015);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3) !important;
 }
 
-/* Loading indicator for images being processed */
-.nsfw-processing {
-  position: relative;
-  overflow: hidden;
+/* Status Indicator Tooltip Support */
+[data-censorra-status="blurred"],
+[data-censorra-status="replaced"] {
+  outline: 2px dashed rgba(99, 102, 241, 0.5) !important;
+  outline-offset: -2px !important;
 }
 
-.nsfw-processing::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  animation: nsfw-scan 2s infinite;
-}
-
-@keyframes nsfw-scan {
-  0% { left: -100%; }
-  100% { left: 100%; }
+[data-censorra-status="revealed"] {
+  outline: none !important;
+  filter: none !important;
+  transition: filter 0.3s ease !important;
 }
